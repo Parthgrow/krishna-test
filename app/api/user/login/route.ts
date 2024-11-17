@@ -2,12 +2,11 @@ import { auth, firestore } from "@/Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { NextRequest } from "next/server";
-import { useRouter } from "next/navigation";
 
 export async function POST(req: NextRequest) {
   const repData = await req.json();
   const { email, password } = repData;
-  const router = useRouter();
+
   console.log(repData);
   try {
     const userCredentials = await signInWithEmailAndPassword(
@@ -29,7 +28,6 @@ export async function POST(req: NextRequest) {
           });
         }
         console.log("user created");
-        router.push("/dashboard");
       } catch (error) {
         console.log("error in creating user ", error);
       }
