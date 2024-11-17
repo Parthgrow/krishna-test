@@ -1,14 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/Firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Route } from "lucide-react";
-import { routeModule } from "next/dist/build/templates/app-page";
-import { useRouter } from "next/navigation";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
   const { email, password } = data;
-  const router = useRouter();
 
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -18,7 +14,6 @@ export async function POST(req: NextRequest) {
     );
     const user = userCredential.user;
     console.log(user);
-    router.push("/login");
 
     return NextResponse.json({
       message: "I am this route and it's working",
