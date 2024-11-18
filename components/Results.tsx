@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { VscCircleFilled } from "react-icons/vsc";
+import { Suspense } from "react";
 
 import Navbar from "./Navbar";
 import {
@@ -132,72 +133,63 @@ export function Results() {
   if (!results) return <div>...isloading</div>;
 
   return (
-    <div className="min-h-screen bg-blue-50">
-      <div className="flex flex-col md:flex-row">
-        <Navbar />
+    <Suspense fallback={<div>...loading</div>}>
+      <div className="min-h-screen bg-blue-50">
+        <div className="flex flex-col md:flex-row">
+          <Navbar />
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 md:ml-28">
-          <header className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-900 font-playfair">
-              Results
-            </h2>
-          </header>
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 md:ml-28">
+            <header className="mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-900 font-playfair">
+                Results
+              </h2>
+            </header>
 
-          <div>
-            {" "}
-            Here are results :{" "}
-            {results ? (
-              <div>{JSON.stringify(results)}</div>
-            ) : (
-              <div>...loading results</div>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 lg:gap-6">
-            <div className="bg-white rounded-lg shadow-md p-6 min-h-[200px] flex flex-col justify-between md:col-span-3">
-              <div className="space-y-2">
-                <h3 className="text-2xl text-gray-600 font-medium pt-2">
-                  Your Krishna Score
-                </h3>
-                {/* <h4 className="text-lg font-bold text-gray-900 pb-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 lg:gap-6">
+              <div className="bg-white rounded-lg shadow-md p-6 min-h-[200px] flex flex-col justify-between md:col-span-3">
+                <div className="space-y-2">
+                  <h3 className="text-2xl text-gray-600 font-medium pt-2">
+                    Your Krishna Score
+                  </h3>
+                  {/* <h4 className="text-lg font-bold text-gray-900 pb-4">
                   Main Heading
                 </h4> */}
 
-                <div className="flex justify-start items-start mb-4">
-                  <h1 className="text-8xl font-bold text-gray-900">
-                    {results.KrishnaScore}
-                  </h1>
-                  <div className="flex flex-col items-center justify-center mt-5 ml-2">
-                    {/* <h2 className="text-xl font-medium text-gray-700 text-right">
+                  <div className="flex justify-start items-start mb-4">
+                    <h1 className="text-8xl font-bold text-gray-900">
+                      {results.KrishnaScore}
+                    </h1>
+                    <div className="flex flex-col items-center justify-center mt-5 ml-2">
+                      {/* <h2 className="text-xl font-medium text-gray-700 text-right">
                       Right Top Heading
                     </h2> */}
-                    {/* <h3 className="text-lg font-medium text-gray-600 text-right">
+                      {/* <h3 className="text-lg font-medium text-gray-600 text-right">
                       Right Bottom Heading
                     </h3> */}
+                    </div>
                   </div>
                 </div>
+                <p className="text-lg font-medium text-gray-600 ">
+                  {results.KrishnaScoreDescription}
+                </p>
               </div>
-              <p className="text-lg font-medium text-gray-600 ">
-                {results.KrishnaScoreDescription}
-              </p>
-            </div>
 
-            {/* report section   */}
+              {/* report section   */}
 
-            <div className="bg-white rounded-lg shadow-md p-6 min-h-[200px] md:col-span-1 flex flex-col space-y-2">
-              <h2 className="text-xl font-bold text-gray-900">
-                Download Report
-              </h2>
-              <p className="text-sm text-gray-500"></p>
-              <div className="flex justify-center items-center space-x-3 lg:space-x-7">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm lg:text-base">
-                  PPT
-                </button>
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm lg:text-base">
-                  PDF
-                </button>
-              </div>
-              {/* <h2 className="text-xl font-bold text-gray-900">Report</h2>
+              <div className="bg-white rounded-lg shadow-md p-6 min-h-[200px] md:col-span-1 flex flex-col space-y-2">
+                <h2 className="text-xl font-bold text-gray-900">
+                  Download Report
+                </h2>
+                <p className="text-sm text-gray-500"></p>
+                <div className="flex justify-center items-center space-x-3 lg:space-x-7">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm lg:text-base">
+                    PPT
+                  </button>
+                  <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm lg:text-base">
+                    PDF
+                  </button>
+                </div>
+                {/* <h2 className="text-xl font-bold text-gray-900">Report</h2>
               <p className="text-sm text-gray-500">
                 This is a paragraph of text that describes Box 2.
               </p>
@@ -206,25 +198,25 @@ export function Results() {
                   PPT
                 </button>
               </div> */}
-            </div>
+              </div>
 
-            {/* breakdown section  */}
+              {/* breakdown section  */}
 
-            <div className="bg-white  rounded-lg shadow-md p-6 min-h-[200px] md:col-span-3">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                Breakdown
-              </h2>
+              <div className="bg-white  rounded-lg shadow-md p-6 min-h-[200px] md:col-span-3">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">
+                  Breakdown
+                </h2>
 
-              {results.quizBreakdown.map((quizText: string) => {
-                return (
-                  <div className=" border-gray-200 py-3 flex gap-3">
-                    <VscCircleFilled />
-                    {quizText}
-                  </div>
-                );
-              })}
+                {results.quizBreakdown.map((quizText: string) => {
+                  return (
+                    <div className=" border-gray-200 py-3 flex gap-3">
+                      <VscCircleFilled />
+                      {quizText}
+                    </div>
+                  );
+                })}
 
-              {/* {sections.map((section, index) => (
+                {/* {sections.map((section, index) => (
                 <div key={index} className="border-b border-gray-200 py-3">
                   <button
                     onClick={() => toggleSection(index)}
@@ -244,24 +236,24 @@ export function Results() {
                   )}
                 </div>
               ))} */}
-            </div>
+              </div>
 
-            <div className="bg-white  rounded-lg shadow-md p-4 sm:p-6 md:p-8 lg:p-10 min-h-[200px] md:col-span-1">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4">
-                Recommendation
-              </h2>
+              <div className="bg-white  rounded-lg shadow-md p-4 sm:p-6 md:p-8 lg:p-10 min-h-[200px] md:col-span-1">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4">
+                  Recommendation
+                </h2>
 
-              {results.recommendations.map((rec: any) => {
-                return (
-                  <div className="flex items-start space-x-3 sm:space-x-4 mb-3 sm:mb-4 md:mb-5">
-                    <p className="text-sm sm:text-base text-gray-600">
-                      {rec.text}
-                    </p>
-                  </div>
-                );
-              })}
+                {results.recommendations.map((rec: any) => {
+                  return (
+                    <div className="flex items-start space-x-3 sm:space-x-4 mb-3 sm:mb-4 md:mb-5">
+                      <p className="text-sm sm:text-base text-gray-600">
+                        {rec.text}
+                      </p>
+                    </div>
+                  );
+                })}
 
-              {/* {recommendations.map((item, index) => (
+                {/* {recommendations.map((item, index) => (
                 <div
                   key={index}
                   className="flex items-start space-x-3 sm:space-x-4 mb-3 sm:mb-4 md:mb-5"
@@ -277,10 +269,11 @@ export function Results() {
                   </div>
                 </div>
               ))} */}
+              </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 }

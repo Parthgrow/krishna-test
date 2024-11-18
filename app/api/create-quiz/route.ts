@@ -26,9 +26,11 @@ export async function POST(req: NextRequest) {
   console.log("data going to firestore", sendData);
 
   try {
-    await setDoc(doc(firestore, "userquiz", nanoid()), sendData);
+    let id = nanoid();
+    await setDoc(doc(firestore, "userquiz", id), sendData);
     return NextResponse.json({
       message: "successfully submitted the quiz ",
+      userQuizId: id,
     });
   } catch (error) {
     if (error instanceof Error) {
