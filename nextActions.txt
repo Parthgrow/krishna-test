@@ -1,0 +1,1 @@
+=> work on the results page => ( the gemini api is failing, I am not sure what could be the reason for that) ; 

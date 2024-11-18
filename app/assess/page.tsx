@@ -26,6 +26,7 @@ const Preview: React.FC = () => {
   const category = searchParams.get("category");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [userQues, setUserQues] = useState<UserQues[]>([]);
+  const [showSubmit, setShowSubmit] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userId, setUserId] = useState("");
   const router = useRouter();
@@ -53,7 +54,7 @@ const Preview: React.FC = () => {
         setQuestions(data);
         let newQues: UserQues[] = data.map((ques: UserQues) => ({
           ...ques,
-          answer: "dummy",
+          answer: "",
         }));
         console.log("newQues", newQues);
         setUserQues(newQues);
@@ -64,6 +65,21 @@ const Preview: React.FC = () => {
 
     fetchQuestions();
   }, [category]);
+
+  // shows submit button only when all the questions are filled
+  useEffect(() => {
+    let length: number = 0;
+
+    userQues.map((ques) => {
+      if (ques.answer !== "") {
+        length = length + 1;
+      }
+    });
+
+    if (length === userQues.length && userQues.length !== 0) {
+      setShowSubmit(true);
+    }
+  }, [userQues]);
 
   const handleNext = () => {
     setCurrentQuestionIndex((prevIndex) =>
@@ -113,6 +129,11 @@ const Preview: React.FC = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+      const repData = await response.json();
+      if (response.ok) {
+        router.push(`/results?userQuizId=${repData.userQuizId}`);
+      }
+      console.log(repData);
     } catch (error) {
       console.log("error at handleQuizSubmit", error);
     }
@@ -182,6 +203,17 @@ const Preview: React.FC = () => {
           >
             Previous
           </button>
+
+          {showSubmit && (
+            <button
+              className="text-xl bg-blue-900 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+              onClick={() => {
+                handleQuizSubmit();
+              }}
+            >
+              Submit Quiz
+            </button>
+          )}
           <button
             onClick={handleNext}
             disabled={currentQuestionIndex === questions.length - 1}
@@ -194,16 +226,7 @@ const Preview: React.FC = () => {
           </button>
         </div>
 
-        <div>
-          <button
-            className="text-xl bg-blue-900 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
-            onClick={() => {
-              handleQuizSubmit();
-            }}
-          >
-            Submit Quiz
-          </button>
-        </div>
+        <div></div>
 
         <div>{JSON.stringify(userQues, null, 2)}</div>
 
